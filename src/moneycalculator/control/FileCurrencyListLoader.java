@@ -44,8 +44,13 @@ public class FileCurrencyListLoader implements CurrencyListLoader{
     }
 
     private Currency currencyOf(String line) {
-        String[] data = line.split(",");
-        return new Currency(data[0], data[1], data[2]);
+        String[] data = line.split(";");
+        try {
+            return new Currency(data[0], data[1], data[2]);
+        } catch (java.lang.ArrayIndexOutOfBoundsException e ){
+            return new Currency(data[0], data[1], "");
+        }
+        
     }
     
     
