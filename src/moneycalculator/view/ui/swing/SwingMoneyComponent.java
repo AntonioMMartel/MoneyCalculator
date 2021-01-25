@@ -45,6 +45,7 @@ public class SwingMoneyComponent extends JPanel implements MoneyComponent {
     private Component amount() {
         jTextFieldAmount = new JTextField();
         jTextFieldAmount.setColumns(10);
+        jTextFieldAmount.setText("100");
         //jTextFieldAmount.getDocument().addDocumentListener(amountChanged());
         return jTextFieldAmount;
         
@@ -55,6 +56,8 @@ public class SwingMoneyComponent extends JPanel implements MoneyComponent {
         //jComboBoxCurrencies.addItemListener(currencyChanged());
         return jComboBoxCurrencies;
     }
+    
+    
     
     
     /*
@@ -99,6 +102,10 @@ public class SwingMoneyComponent extends JPanel implements MoneyComponent {
         };
     }
 */
+
+    public JTextField getjTextFieldAmount() {
+        return jTextFieldAmount;
+    }
     
     
     

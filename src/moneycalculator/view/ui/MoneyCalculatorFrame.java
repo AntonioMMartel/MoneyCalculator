@@ -21,21 +21,19 @@ import moneycalculator.view.ui.swing.SwingMoneyComponent;
  */
 public class MoneyCalculatorFrame extends JFrame {
     
-    private final CurrencyListLoader currencyListLoader;
-    private List<Currency> currencies; 
+    private final List<Currency> currencies; 
     private final Map<String, Command> commands = new HashMap<>();
-    SwingMoneyComponent moneyDialogUp;
-    SwingMoneyComponent moneyDialogDown;
+    SwingMoneyComponent moneyComponentUp;
+    SwingMoneyComponent moneyComponentDown;
     
 
     public MoneyCalculatorFrame(CurrencyListLoader currencyListLoader) {
         super.setTitle("Money Calculator");
-        this.currencyListLoader = currencyListLoader;
         currencies = currencyListLoader.loadCurrencies();
         
         initComponents();
         
-        commands.put("calculate", new CalculateCommand(moneyDialogUp, moneyDialogDown,currencyListLoader.setExchangeCurrency("EUR")));
+        commands.put("calculate", new CalculateCommand(moneyComponentUp, moneyComponentDown,currencyListLoader.setExchangeCurrency("EUR")));
 
         super.setLocationRelativeTo(null);
         super.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -47,11 +45,11 @@ public class MoneyCalculatorFrame extends JFrame {
     private void initComponents() {
         
         this.setLayout(new GridLayout(3, 1));
-        moneyDialogUp = new SwingMoneyComponent(currencies);
-        moneyDialogDown = new SwingMoneyComponent(currencies);
-        
-        this.add(moneyDialogUp);
-        this.add(moneyDialogDown);
+        moneyComponentUp = new SwingMoneyComponent(currencies);
+        moneyComponentDown = new SwingMoneyComponent(currencies);
+        moneyComponentDown.getjTextFieldAmount().setEditable(false);
+        this.add(moneyComponentUp);
+        this.add(moneyComponentDown);
         this.add(toolbar());
         this.pack();
         
@@ -73,20 +71,9 @@ public class MoneyCalculatorFrame extends JFrame {
     }
 
     private ActionListener calculate() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                commands.get("calculate").execute();
-                
-            }
+        return (ActionEvent e) -> {
+            commands.get("calculate").execute();
         };
     }
-    
-    private void executeCommand(String name) {        
-        commands.get(name).execute();
-    }
-    
-    
-    
+
 }
