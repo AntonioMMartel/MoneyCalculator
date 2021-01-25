@@ -12,11 +12,11 @@ import java.sql.SQLException;
  * Misma implementacion que con la kata5 pero separamos la coneccion de
  * la obtencion de datos.
  */
-public class SQLiteDatabaseConnector implements DatabaseConnector {
+public class SQLiteConnector implements DatabaseConnector {
     
         private final String databaseName;
     
-    public SQLiteDatabaseConnector(String databaseName) {
+    public SQLiteConnector(String databaseName) {
         this.databaseName = databaseName;
     }
             

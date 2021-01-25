@@ -1,7 +1,7 @@
 package moneycalculator;
 
-import moneycalculator.control.FileCurrencyListLoader;
 import moneycalculator.persistence.CurrencyListLoader;
+import moneycalculator.persistence.sqlite.SQLiteCurrencyListLoader;
 import moneycalculator.view.ui.MoneyCalculatorFrame;
 
 /**
@@ -10,10 +10,8 @@ import moneycalculator.view.ui.MoneyCalculatorFrame;
 public class MoneyCalculator {
 
     public static void main(String[] args) {
-        CurrencyListLoader currencyListLoader = new FileCurrencyListLoader("datafiles/currencies.txt");
-        
-        MoneyCalculatorFrame frame = new MoneyCalculatorFrame(currencyListLoader.loadCurrencies());
-        
+        CurrencyListLoader currencyListLoader = new SQLiteCurrencyListLoader("database\\MoneyCalculatorDB.db");
+        MoneyCalculatorFrame frame = new MoneyCalculatorFrame(currencyListLoader);
     }
 
 }

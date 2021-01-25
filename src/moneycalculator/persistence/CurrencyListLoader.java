@@ -9,5 +9,6 @@ import moneycalculator.Models.Currency;
 public interface CurrencyListLoader {
     
     public List<Currency> loadCurrencies(); 
+    public Currency setExchangeCurrency(String isoCode);
     
 }

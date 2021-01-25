@@ -52,6 +52,11 @@ public class FileCurrencyListLoader implements CurrencyListLoader{
         }
         
     }
+
+    @Override
+    public Currency setExchangeCurrency(String isoCode) {
+        return null;
+    }
     
     
     

@@ -16,6 +16,7 @@ import moneycalculator.Models.ExchangeRate;
 import moneycalculator.persistence.DatabaseConnector;
 import moneycalculator.persistence.DatabaseExchangeRateUpdater;
 import moneycalculator.persistence.ExchangeRateLoader;
+import moneycalculator.persistence.web.CurrencyConverterApiExchangeLoader;
 
 /**
  * @author Antonio Miguel Martel
@@ -40,7 +41,13 @@ public class SQLiteExchangeRateLoader implements ExchangeRateLoader {
     }
     
     private void updateRowExchangeTable(Currency from, Currency to) throws SQLException {
-
+        
+        if (!manager.isUpdated(connector, from, to)) {
+            ExchangeRate exchange = new CurrencyConverterApiExchangeLoader().load(from, to);
+            manager.update(connector, from, to, exchange.getAmount());
+        }
+        
+        
     }
     
     @Override

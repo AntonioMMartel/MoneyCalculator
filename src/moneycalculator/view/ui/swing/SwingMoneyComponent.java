@@ -13,50 +13,57 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import moneycalculator.Models.Currency;
 import moneycalculator.Models.Money;
-import moneycalculator.view.ui.MoneyDialog;
+import moneycalculator.view.ui.MoneyComponent;
 
 /**
  * @author Antonio Miguel Martel
  */
-public class SwingMoneyDialog extends JPanel implements MoneyDialog {
+public class SwingMoneyComponent extends JPanel implements MoneyComponent {
     
     private final Currency[] currencies;
-    private String amount;
-    private Currency currency;
+    
+    private JComboBox<Currency> jComboBoxCurrencies;
+    private JTextField jTextFieldAmount;
 
-    public SwingMoneyDialog(List<Currency> currencies) {
+    public SwingMoneyComponent(List<Currency> currencies) {
         this.currencies = currencies.toArray(new Currency[0]);
-        this.add(amount());
-        this.add(currency());
+        super.add(amount());
+        super.add(currency());
     }
 
     @Override
     public Money get() {
-        return new Money(currency, 0);
+        return new Money((Currency) jComboBoxCurrencies.getSelectedItem(), Double.parseDouble(jTextFieldAmount.getText()));
     }
-
+    
+    @Override
+    public void updateAmount(double newAmount) {
+        jTextFieldAmount.setText(Double.toString(newAmount));
+        
+    }
+    
     private Component amount() {
-        JTextField textField = new JTextField("100");
-        textField.setColumns(10);
-        textField.getDocument().addDocumentListener(amountChanged());
-        amount = textField.getText();
-        return textField;
+        jTextFieldAmount = new JTextField();
+        jTextFieldAmount.setColumns(10);
+        //jTextFieldAmount.getDocument().addDocumentListener(amountChanged());
+        return jTextFieldAmount;
         
     }
 
     private Component currency() {
-        JComboBox comboBox = new JComboBox(currencies);
-        comboBox.addItemListener(currencyChanged());
-        currency = (Currency) comboBox.getSelectedItem();
-        return comboBox;
+        jComboBoxCurrencies = new JComboBox(currencies);
+        //jComboBoxCurrencies.addItemListener(currencyChanged());
+        return jComboBoxCurrencies;
     }
     
     
     /*
         Esta lógica deberia de ir en otra clase.
         El display no tiene nada que ver con el 
-        control de eventos.
-    */
+        control de eventos que sucede en el.
+    
+        Sin embargo como es una app pequeña nos podemos dar el lujo.
+    
     
     private DocumentListener amountChanged() {
         return new DocumentListener() {
@@ -91,6 +98,8 @@ public class SwingMoneyDialog extends JPanel implements MoneyDialog {
             currency = (Currency) e.getItem();
         };
     }
+*/
+    
     
     
     

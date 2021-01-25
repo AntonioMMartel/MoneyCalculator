@@ -11,24 +11,31 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import moneycalculator.Models.Currency;
+import moneycalculator.control.CalculateCommand;
 import moneycalculator.control.Command;
-import moneycalculator.view.ui.swing.SwingMoneyDialog;
+import moneycalculator.persistence.CurrencyListLoader;
+import moneycalculator.view.ui.swing.SwingMoneyComponent;
 
 /**
  * @author Antonio Miguel Martel
  */
 public class MoneyCalculatorFrame extends JFrame {
     
-    private final List<Currency> currencies;
+    private final CurrencyListLoader currencyListLoader;
+    private List<Currency> currencies; 
     private final Map<String, Command> commands = new HashMap<>();
-    private MoneyDisplay moneyDisplay;
-    private MoneyDialog moneyDialog;
+    SwingMoneyComponent moneyDialogUp;
+    SwingMoneyComponent moneyDialogDown;
+    
 
-    public MoneyCalculatorFrame(List<Currency> currencies) {
+    public MoneyCalculatorFrame(CurrencyListLoader currencyListLoader) {
         super.setTitle("Money Calculator");
-        this.currencies = currencies;
+        this.currencyListLoader = currencyListLoader;
+        currencies = currencyListLoader.loadCurrencies();
         
         initComponents();
+        
+        commands.put("calculate", new CalculateCommand(moneyDialogUp, moneyDialogDown,currencyListLoader.setExchangeCurrency("EUR")));
 
         super.setLocationRelativeTo(null);
         super.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -40,8 +47,8 @@ public class MoneyCalculatorFrame extends JFrame {
     private void initComponents() {
         
         this.setLayout(new GridLayout(3, 1));
-        SwingMoneyDialog moneyDialogUp = new SwingMoneyDialog(currencies);
-        SwingMoneyDialog moneyDialogDown = new SwingMoneyDialog(currencies);
+        moneyDialogUp = new SwingMoneyComponent(currencies);
+        moneyDialogDown = new SwingMoneyComponent(currencies);
         
         this.add(moneyDialogUp);
         this.add(moneyDialogDown);
@@ -70,10 +77,14 @@ public class MoneyCalculatorFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
-                
+                commands.get("calculate").execute();
                 
             }
         };
+    }
+    
+    private void executeCommand(String name) {        
+        commands.get(name).execute();
     }
     
     

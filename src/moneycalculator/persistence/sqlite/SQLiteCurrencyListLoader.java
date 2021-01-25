@@ -17,10 +17,10 @@ import moneycalculator.persistence.CurrencyListLoader;
  * la cohesion.
  */
 public class SQLiteCurrencyListLoader implements CurrencyListLoader{
-    private final SQLiteDatabaseConnector connector;
+    private final SQLiteConnector connector;
 
     public SQLiteCurrencyListLoader(String databaseName) {
-        this.connector = new SQLiteDatabaseConnector(databaseName);
+        this.connector = new SQLiteConnector(databaseName);
     }
     
     private static ResultSet executeQuery(Connection connection) throws SQLException {
@@ -55,8 +55,9 @@ public class SQLiteCurrencyListLoader implements CurrencyListLoader{
         connector.disconnect(connection);
         return currencies;
     }
-
-    public Currency loadDefault(String isoCode) {
+    
+    @Override
+    public Currency setExchangeCurrency(String isoCode) {
         Connection connection = connector.connect();
         
         try {

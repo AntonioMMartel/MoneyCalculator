@@ -5,18 +5,18 @@ package moneycalculator.Models;
  */
 public class Money {
     private final Currency currency;
-    private final double amount;
+    private final double value;
 
     public Money(Currency currency, double value) {
         this.currency = currency;
-        this.amount = value;
+        this.value = value;
     }
 
     public Currency getCurrency() {
         return currency;
     }
 
-    public Double getAmount() {
-        return amount;
+    public Double getValue() {
+        return value;
     }
 }
